@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/boltdb/bolt"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/rawdb"
 	"github.com/ethereum/go-ethereum/core/state/snapshot"
 	"github.com/ethereum/go-ethereum/rlp"
@@ -61,7 +60,9 @@ func main() {
 
 		rlp.DecodeBytes(it.Value, &account)
 
-		stateRoot, err := trie.New(common.Hash{account.Root[32]}, trie.NewDatabase(db))
+		var arr [32]byte
+		copy(arr[:], account.Root[:32])
+		stateRoot, err := trie.New(arr, trie.NewDatabase(db))
 		if err != nil {
 			log.Fatalf("Failed to retrieve account trie: %v", err)
 		}
