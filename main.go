@@ -59,6 +59,7 @@ func main() {
 		var account snapshot.Account
 
 		rlp.DecodeBytes(it.Value, &account)
+		log.Printf("Iterating trie #%s", string(it.Key))
 
 		var arr [32]byte
 		copy(arr[:], account.Root[:32])
@@ -71,6 +72,7 @@ func main() {
 		for stateIterator.Next() {
 			var nodeAccount snapshot.Account
 			rlp.DecodeBytes(stateIterator.Value, &nodeAccount)
+			log.Printf("Iterating stateTrie #%s", string(stateIterator.Key))
 
 			// accountBytes, err := json.Marshal(account)
 			// if err != nil {
